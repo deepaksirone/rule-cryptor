@@ -86,7 +86,7 @@ def encrypt_section(filename, section_name, key):
         assert(len(section_data) == section_size)
         # key = get_random_bytes(16)
         cipher = AES.new(key, AES.MODE_GCM)
-        cipher.update(section_header_data)
+        #cipher.update(section_header_data)
 
         #print (secure_code.header)
         ciphertext, tag = cipher.encrypt_and_digest(section_data)
