@@ -116,11 +116,11 @@ def main():
     filename_enc = filename + ".enc"
     shutil.copy2(filename, filename_enc)
 
-    key = get_random_bytes(16)
+    key = get_random_bytes(32)
     code_start, code_size, code_tag, code_nonce = encrypt_section(filename_enc, '.secure_code', key)
     data_start, data_size, data_tag, data_nonce = encrypt_section(filename_enc, '.secure_data', key)
     var_dict = { '__secure_code_start': code_start, '__secure_code_size': code_size, '__secure_code_tag_lower': code_tag[:8], '__secure_code_tag_upper': code_tag[8:],
-            '__secure_code_nonce_lower': code_nonce[:8], '__secure_code_nonce_upper': code_nonce[8:], '__secure_data_start': data_start, '__secure_data_size': data_size, '__secure_data_tag_lower': data_tag[:8], '__secure_data_tag_upper': data_tag[8:], '__secure_data_nonce_lower': data_nonce[:8], '__secure_data_nonce_upper': data_nonce[8:], '__dec_key_lower': key[:8], '__dec_key_upper': key[8:]}
+            '__secure_code_nonce_lower': code_nonce[:8], '__secure_code_nonce_upper': code_nonce[8:], '__secure_data_start': data_start, '__secure_data_size': data_size, '__secure_data_tag_lower': data_tag[:8], '__secure_data_tag_upper': data_tag[8:], '__secure_data_nonce_lower': data_nonce[:8], '__secure_data_nonce_upper': data_nonce[8:], '__dec_key_1': key[:8], '__dec_key_2': key[8:16], '__dec_key_3': key[16:24], '__dec_key_4': key[24:]}
     print (var_dict)
     fill_in_constants(filename_enc, var_dict)
 
