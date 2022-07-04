@@ -94,11 +94,11 @@ def encrypt_section(filename, section_name, key):
         assert(len(ciphertext) == section_size)
         print ("All Assertions passed")
 
-        #json_k = [ 'nonce', 'ciphertext', 'tag' ]
-        #json_v = [ b64encode(x).decode('utf-8') for x in [cipher.nonce, ciphertext, tag ]]
+        json_k = [ 'nonce', 'tag' ]
+        json_v = [ b64encode(x).decode('utf-8') for x in [cipher.nonce, tag ]]
 
-        #result = json.dumps(dict(zip(json_k, json_v)))
-        #print (result)
+        result = json.dumps(dict(zip(json_k, json_v)))
+        print (result)
         print ("--Writing %s ciphertext to file--" % section_name)
         f.seek(section_offset)
         f.write(ciphertext)
@@ -120,7 +120,7 @@ def main():
     code_start, code_size, code_tag, code_nonce = encrypt_section(filename_enc, '.secure_code', key)
     data_start, data_size, data_tag, data_nonce = encrypt_section(filename_enc, '.secure_data', key)
     var_dict = { '__secure_code_start': code_start, '__secure_code_size': code_size, '__secure_code_tag_lower': code_tag[:8], '__secure_code_tag_upper': code_tag[8:],
-            '__secure_code_nonce_lower': code_nonce[:8], '__secure_code_nonce_upper': code_nonce[8:], '__secure_data_start': data_start, '__secure_data_size': data_size, '__secure_data_tag_lower': data_tag[:8], '__secure_data_tag_upper': data_tag[8:], '__secure_data_nonce_lower': data_nonce[:8], '__secure_data_nonce_upper': data_nonce[8:] }
+            '__secure_code_nonce_lower': code_nonce[:8], '__secure_code_nonce_upper': code_nonce[8:], '__secure_data_start': data_start, '__secure_data_size': data_size, '__secure_data_tag_lower': data_tag[:8], '__secure_data_tag_upper': data_tag[8:], '__secure_data_nonce_lower': data_nonce[:8], '__secure_data_nonce_upper': data_nonce[8:], '__dec_key_lower': key[:8], '__dec_key_upper': key[8:]}
     print (var_dict)
     fill_in_constants(filename_enc, var_dict)
 
